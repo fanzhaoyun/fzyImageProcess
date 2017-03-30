@@ -18,6 +18,7 @@ public:
 	int height; //¸ß
 public:
 	ImStruct();
+	~ImStruct();
 	ImStruct(int dp, int chl, int te, unsigned char* da, int w, int h);
 	ImStruct(const ImStruct& img);
 	void create(int width, int height,int te);

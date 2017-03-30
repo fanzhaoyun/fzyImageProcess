@@ -2,10 +2,12 @@
 #ifndef IMG_PROCESS_H
 #define IMG_PROCESS_H
 
+#include<vector>
+
 #include"readImage.h"
 
 void line(const ImStruct *src, ImStruct *dst, double k, double b);  //线性变换
-void segmentLine(const ImStruct *src, ImStruct *dst);               //分段线性变换
+void segmentLine(const ImStruct *src, ImStruct *dst, vector<pair<int, int> > thresh, vector<pair<double, double> >);               //分段线性变换
 int maxValue(const ImStruct *src);                                //最大值
 int minValue(const ImStruct *src);                               //最小值
 void histogram(const ImStruct *src, int * hist);                 //直方图
@@ -14,7 +16,7 @@ double brightness(const ImStruct *src);              //亮度
 double contrast(const ImStruct *src);                //对比度
 void changeBrightnessAndContrast(const ImStruct *src, ImStruct *dst, double brightness, double contrast);  //亮度，对比度调节。单独调节时，另一个置0即可
 void antiColor(const ImStruct *src, ImStruct *dst);              //反色
-void averageSmooth(const ImStruct *src, ImStruct *dst);          //均值滤波
+void averageSmooth(const ImStruct *src, ImStruct *dst, int W = 3, int H = 3);          //均值滤波
 void gaussianSmooth(const ImStruct *src, ImStruct *dst);         //高斯滤波
 void middleValueSmooth(const ImStruct *src, ImStruct *dst);      //中值滤波
 void maxValueSmooth(const ImStruct *src, ImStruct *dst);         //最大值滤波

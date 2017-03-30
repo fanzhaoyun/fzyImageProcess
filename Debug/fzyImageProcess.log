@@ -1,3 +1,9 @@
-﻿  mainTest.cpp
+﻿  ImProcess.cpp
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(23): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(51): warning C4018: “<”: 有符号/无符号不匹配
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(53): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(222): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(105): warning C4715: “maxValue”: 不是所有的控件路径都返回值
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(122): warning C4715: “minValue”: 不是所有的控件路径都返回值
   fzyImageProcess.vcxproj -> D:\MyCode\C++\fzyImageProcess\Debug\fzyImageProcess.exe
   fzyImageProcess.vcxproj -> D:\MyCode\C++\fzyImageProcess\Debug\fzyImageProcess.pdb (Full PDB)

@@ -201,7 +201,7 @@ bool WriteColorImage(ImStruct* img, const char* filename) {
 	imInfo.biClrImportant = 0;
 	if (fwrite(&imInfo, 1, sizeof(imInfo), fp) != sizeof(imInfo)) SUC = false;
 
-	if (fwrite(img->data, sizeof(BYTE) * img->width * 3, img->height, fp) != (img->width*img->height * 3)) SUC = false;
+	if (fwrite(img->data, sizeof(BYTE) * img->width * 3, img->height, fp) != (img->height)) SUC = false;
 
 	fclose(fp);
 
