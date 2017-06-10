@@ -7,6 +7,7 @@
 #define GRAY 0
 #define COLORIMG 1
 
+
 class ImStruct
 {
 public:

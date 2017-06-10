@@ -223,3 +223,29 @@ bool WriteImage(ImStruct* img, const char* filename) {
 
 	return SUC;
 }
+
+void ColortoGray(const ImStruct * src, ImStruct * dst)
+{
+	BYTE *pRgb,*pEnd;
+	int sum;
+
+	pEnd = src->data + 3 * src->width * src->height;
+	for (pRgb = src->data; pRgb < pEnd;) {
+		sum = *(pRgb++) * 7471;
+		sum += *(pRgb++) * 38469;
+		sum += *(pRgb++) * 19595;
+		*(dst->data++) = sum>>16;
+	}
+}
+
+
+void Colorto2(const ImStruct * src, ImStruct * dst)
+{
+	ColortoGray(src, dst);
+	Grayto2(dst, dst);
+}
+
+void Grayto2(const ImStruct * src, ImStruct * dst,int threshod)
+{
+	
+}

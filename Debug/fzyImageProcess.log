@@ -1,9 +1,21 @@
-﻿  ImProcess.cpp
+﻿  readImage.cpp
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\readimage.cpp(51): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\readimage.cpp(129): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\readimage.cpp(179): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\stdio.h(205): note: 参见“fopen”的声明
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\readimage.cpp(177): warning C4101: “p”: 未引用的局部变量
+  正在生成代码...
+  正在编译...
+  mainTest.cpp
+  ImProcess.cpp
 d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(23): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
 d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(51): warning C4018: “<”: 有符号/无符号不匹配
 d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(53): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
-d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(222): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(241): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+  正在生成代码...
 d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(105): warning C4715: “maxValue”: 不是所有的控件路径都返回值
 d:\mycode\c++\fzyimageprocess\fzyimageprocess\improcess.cpp(122): warning C4715: “minValue”: 不是所有的控件路径都返回值
-  fzyImageProcess.vcxproj -> D:\MyCode\C++\fzyImageProcess\Debug\fzyImageProcess.exe
-  fzyImageProcess.vcxproj -> D:\MyCode\C++\fzyImageProcess\Debug\fzyImageProcess.pdb (Full PDB)
+readImage.obj : error LNK2019: 无法解析的外部符号 "void __cdecl Grayto2(class ImStruct const *,class ImStruct const *)" (?Grayto2@@YAXPBVImStruct@@0@Z)，该符号在函数 "void __cdecl Colorto2(class ImStruct const *,class ImStruct *)" (?Colorto2@@YAXPBVImStruct@@PAV1@@Z) 中被引用
+D:\MyCode\C++\fzyImageProcess\Debug\fzyImageProcess.exe : fatal error LNK1120: 1 个无法解析的外部命令

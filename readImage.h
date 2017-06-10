@@ -15,13 +15,13 @@ using namespace std;
 
 ImStruct* ReadImage(ImStruct* imStruct, const char* filename);
 bool WriteImage(ImStruct* img, const char* filename);
-ImStruct ColortoGray(ImStruct src);
+void ColortoGray(const ImStruct * src, ImStruct * dst);
 void GetImInform(const char* filename);
 void GetImInform(const ImStruct* src);
 ImStruct RgbtoHsv(const ImStruct* src);
 ImStruct RgbtoYuv(const ImStruct* src);
 ImStruct RgbtoHsi(const ImStruct* src);
-ImStruct Colorto2(const ImStruct* src);
-ImStruct Grayto2(const ImStruct* src);
+void Colorto2(const ImStruct* src, const ImStruct *dst);
+void Grayto2(const ImStruct* src, const ImStruct *dst);
 
 #endif // !READ_IMAGE_H

@@ -124,6 +124,25 @@ int minValue(const ImStruct *src) {
 /*
 输入：
 src：原图像
+输出：
+图像中值
+描述：
+求中值
+*/
+int midValue(const ImStruct *src) {
+	int hist[256];
+	int imgsize = src->width * src->height;
+	histogram(src, hist);
+	for (int i = 0, sum = 0; i < 256; i++) {
+		sum += hist[i];
+		if (sum * 2 > imgsize) return i;
+	}
+	return 0;
+}
+
+/*
+输入：
+src：原图像
 dst：目标图像
 输出：
 描述：
@@ -341,6 +360,235 @@ void averageSmooth(const ImStruct *src, ImStruct *dst, int W, int H) {
 					sumtemp[i] = sumtemp[i] - src->data[temp + i] + src->data[temp1 + i];
 				}
 			}
+		}
+	}
+}
+
+/*
+输入：
+src：原图像
+dst：目标图像
+radius: 滤波半径
+输出：
+描述：
+对图像进行高斯滤波
+彩色图像滤波时要分别处理RGB值
+*/
+void gaussianSmooth(const ImStruct *src, ImStruct *dst, int radius) {
+	const int *gasskner = new int[radius*radius];
+	int width, height, sum = 0,area = 0;
+	width = src->width;
+	height = src->height;
+	if (width < radius || height < radius) return;
+	memcpy(dst->data, src->data, width*height);
+
+	if (radius == 3) {
+		gasskner = GAUSSFILTERTHREE;
+		area = 16;
+	}
+	else if (radius == 5) {
+		gasskner = GAUSSFILTERFIVE;
+		area = 82;
+	}
+	else if (radius == 7) {
+		gasskner = GAUSSFILTERSEVEN;
+		area = 16;
+	}
+	else {
+		//根据sigma生成高斯核
+	}
+	//高斯滤波
+	
+	for (int i = 0; i <= height - radius; i++) {
+		for (int j = 0; j <= width - radius; j++) {
+			sum = 0;
+			for (int ii = i,m = 0; m < radius; ii++,m++) {
+				for (int jj = j, n = 0; n < radius; jj++,n++) {
+					sum += (src->data[ii * width + jj] * gasskner[m * radius + n]);
+				}
+			}
+			dst->data[(i + (radius / 2)) * width + j + radius / 2] = sum / area;
+		}
+	}
+}
+
+/*
+输入：
+hist：直方图
+输出：
+中值
+描述：
+根据直方图求中值
+*/
+int getmiddle(int *hist, int imgsize) {
+	for (int i = 0, sum = 0; i < 256; i++) {
+		sum += hist[i];
+		if (sum * 2 > imgsize) return i;
+	}
+	return 0;
+}
+
+/*
+输入：
+src：原图像
+dst：目标图像
+W: 滤波窗口的宽度
+H: 滤波窗口的高度
+输出：
+描述：
+对图像进行中值滤波
+*/
+void middleValueSmooth(const ImStruct *src, ImStruct *dst, int W, int H) {
+	int th = (W * H) / 2 + 1,mid = 0,mNum = 0;
+	int hist[256];
+	int width, height;
+	width = src->width;
+	height = src->height;
+	if (width < W || height < H) return;
+	memcpy(dst->data, src->data, width*height);
+	for (int i = 0; i <= height - H; i++) {
+		memset(hist, 0, sizeof(int) * 256);
+		for (int ii = i, m = 0; m < H; ii++, m++) {
+			for (int jj = 0; jj < W; jj++) {
+				hist[src->data[ii * width + jj]]++;
+			}
+		}
+		mid = getmiddle(hist, W*H);
+		dst->data[(i + (H / 2)) * width + W / 2] = mid;
+		mNum = 0;
+		for (int ii = i, m = 0; m < H; ii++, m++) {
+			for (int jj = 0; jj < W; jj++) {
+				if (src->data[ii * width + jj] <= mid) mNum++;
+			}
+		}
+		for (int j = 0; j <= width - W - 1; j++) {
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j]]--;
+				if (src->data[ii * width + j] <= mid) mNum--;
+			}
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j + W]]++;
+				if (src->data[ii * width + j + W] <= mid) mNum++;
+			}
+			if (mNum > th) {
+				while (mNum > th) {
+					mNum -= hist[mid];
+					mid--;
+				}
+				mid++;
+				mNum += hist[mid];
+			}
+			else {
+				while (mNum <= th) {
+					mid++;
+					mNum += hist[mid];
+				}
+			}
+			dst->data[(i + (H / 2)) * width + j + W / 2 + 1] = mid;
+		}
+	}
+}
+
+/*
+输入：
+hist：直方图
+输出：
+中值
+描述：
+根据直方图求最大值
+*/
+int getmax(int *hist, int imgsize) {
+	for (int i = 255; i > 0; i--) {
+		if (hist[i]) return i;
+	}
+	return 0;
+}
+/*
+输入：
+src：原图像
+dst：目标图像
+W: 滤波窗口的宽度
+H: 滤波窗口的高度
+输出：
+描述：
+对图像进行最大值滤波
+*/
+void maxValueSmooth(const ImStruct *src, ImStruct *dst, int W, int H) {
+	int hist[256], max;
+	int width, height,imgsize = W * H;
+	width = src->width;
+	height = src->height;
+	if (width < W || height < H) return;
+	memcpy(dst->data, src->data, width*height);
+	for (int i = 0; i <= height - H; i++) {
+		memset(hist, 0, sizeof(int) * 256);
+		for (int ii = i, m = 0; m < H; ii++, m++) {
+			for (int jj = 0; jj < W; jj++) {
+				hist[src->data[ii * width + jj]]++;
+			}
+		}
+		max = getmax(hist, imgsize);
+		dst->data[(i + (H / 2)) * width + W / 2] = max;
+		for (int j = 0; j <= width - W - 1; j++) {
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j]]--;
+			}
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j + W]]++;
+			}
+			dst->data[(i + (H / 2)) * width + j + W / 2 + 1] = getmax(hist, imgsize);
+		}
+	}
+}
+
+/*
+输入：
+hist：直方图
+输出：
+中值
+描述：
+根据直方图求最小值
+*/
+int getmin(int *hist, int imgsize) {
+	for (int i = 0; i < 256; i++) {
+		if (hist[i]) return i;
+	}
+	return 255;
+}
+/*
+输入：
+src：原图像
+dst：目标图像
+W: 滤波窗口的宽度
+H: 滤波窗口的高度
+输出：
+描述：
+对图像进行最小值滤波
+*/
+void minValueSmooth(const ImStruct *src, ImStruct *dst, int W, int H) {
+	int hist[256], max;
+	int width, height, imgsize = W * H;
+	width = src->width;
+	height = src->height;
+	if (width < W || height < H) return;
+	memcpy(dst->data, src->data, width*height);
+	for (int i = 0; i <= height - H; i++) {
+		memset(hist, 0, sizeof(int) * 256);
+		for (int ii = i, m = 0; m < H; ii++, m++) {
+			for (int jj = 0; jj < W; jj++) {
+				hist[src->data[ii * width + jj]]++;
+			}
+		}
+		max = getmin(hist, imgsize);
+		dst->data[(i + (H / 2)) * width + W / 2] = max;
+		for (int j = 0; j <= width - W - 1; j++) {
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j]]--;
+			}
+			for (int ii = i, m = 0; m < H; ii++, m++) {
+				hist[src->data[ii * width + j + W]]++;
+			}
+			dst->data[(i + (H / 2)) * width + j + W / 2 + 1] = getmin(hist, imgsize);
 		}
 	}
 }
